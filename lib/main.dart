@@ -1,5 +1,6 @@
 import 'package:apirestmovies/api/themoviedbservice.dart';
 import 'package:apirestmovies/ui/cajapelicula.dart';
+import 'package:apirestmovies/ui/listaCategoria.dart';
 import 'package:apirestmovies/ui/spinnerwidget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,24 +26,34 @@ class MovieDBPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Pelis más valoradas')),
-        body: FutureBuilder(
-          //podría poner
-          //initialData: [],
-          future: TheMovieDBService.getTopRatedMovies(),
-          builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  var pelicula = snapshot.data![index];
-                  return CajaPelicula(peli: pelicula);
-                },
-              );
-            } else {
-              return SpinnerWidget();
-            }
-          },
+        appBar: AppBar(title: Text('Seleccione una categoria')),
+        body: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.stars_sharp),
+              title: Text('Mejor Calificadas'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListaCategoria("top_rated"))),
+            ),
+            ListTile(
+              leading: Icon(Icons.new_releases_outlined),
+              title: Text('Populares'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListaCategoria("popular"))),
+            ),
+            ListTile(
+              leading: Icon(Icons.movie_sharp),
+              title: Text('Proximos Lanzamientos'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListaCategoria("upcoming"))),
+            ),
+          ],
         ));
   }
 }
